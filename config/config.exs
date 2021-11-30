@@ -10,6 +10,12 @@ import Config
 config :ellion,
   ecto_repos: [Ellion.Repo]
 
+# set uuid and timestampz as default
+config :ellion, Ellion.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id],
+  migration_timestamps: [type: :timestamptz]
+
 # Configures the endpoint
 config :ellion, EllionWeb.Endpoint,
   url: [host: "localhost"],
