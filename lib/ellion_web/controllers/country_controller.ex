@@ -4,6 +4,8 @@ defmodule EllionWeb.CountryController do
   alias Ellion.Geo
   alias Ellion.Geo.Country
 
+  action_fallback EllionWeb.FallbackController
+
   def index(conn, _params) do
     countries = Geo.list_countries()
     render(conn, "index.json", countries: countries)
