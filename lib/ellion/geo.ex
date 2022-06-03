@@ -3,9 +3,8 @@ defmodule Ellion.Geo do
   Geolocation context.
   """
 
-  import Ecto.Query, warn: false
-
   alias Ellion.Geo.Country
+  alias Ellion.Geo.State
   alias Ellion.Repo
 
   @doc """
@@ -37,10 +36,10 @@ defmodule Ellion.Geo do
     {:ok, country}
   rescue
     Ecto.NoResultsError ->
-      {:error, Country.error_changeset(:id, id, "not found")}
+      {:error, Country.error_changeset(:id, id, "not found [country]")}
 
     Ecto.Query.CastError ->
-      {:error, Country.error_changeset(:id, id, "invalid uuid")}
+      {:error, Country.error_changeset(:id, id, "invalid format [country]")}
   end
 
   @doc """
@@ -106,5 +105,105 @@ defmodule Ellion.Geo do
   """
   def change_country(%Country{} = country, attrs \\ %{}) do
     Country.changeset(country, attrs)
+  end
+
+  @doc """
+  Returns the list of states.
+
+  ## Examples
+
+      iex> list_states()
+      [%State{}, ...]
+
+  """
+  def list_states, do: Repo.all(State)
+
+  @doc """
+  Gets a single state.
+
+  ## Examples
+
+      iex> get_state(valid_uuid)
+      {:ok, %State{}}
+
+      iex> get_state(invalid_uuid)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def get_state(id) do
+    state = Repo.get!(State, id)
+
+    {:ok, state}
+  rescue
+    Ecto.NoResultsError ->
+      {:error, State.error_changeset(:id, id, "not found [state]")}
+
+    Ecto.Query.CastError ->
+      {:error, State.error_changeset(:id, id, "invalid format [state]")}
+  end
+
+  @doc """
+  Creates a state.
+
+  ## Examples
+
+      iex> create_state(%{field: value})
+      {:ok, %State{}}
+
+      iex> create_state(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_state(attrs \\ %{}) do
+    %State{}
+    |> State.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a state.
+
+  ## Examples
+
+      iex> update_state(state, %{field: new_value})
+      {:ok, %State{}}
+
+      iex> update_state(state, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_state(%State{} = state, attrs) do
+    state
+    |> State.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a state.
+
+  ## Examples
+
+      iex> delete_state(state)
+      {:ok, %State{}}
+
+      iex> delete_state(state)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_state(%State{} = state) do
+    Repo.delete(state)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking state changes.
+
+  ## Examples
+
+      iex> change_state(state)
+      %Ecto.Changeset{data: %State{}}
+
+  """
+  def change_state(%State{} = state, attrs \\ %{}) do
+    State.changeset(state, attrs)
   end
 end

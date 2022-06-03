@@ -1,24 +1,23 @@
-defmodule Ellion.Geo.Country do
+defmodule Ellion.Geo.State do
   use Ellion.Schema
 
   import Ecto.Changeset
 
-  alias Ellion.Geo.State
+  alias Ellion.Geo.Country
   alias Ellion.Utils.Validator
 
-  schema "countries" do
+  schema "states" do
     field :code, :string
     field :name, :string
-    has_many :states, State
+    belongs_to :country, Country
 
     timestamps()
   end
 
   @doc false
-  def changeset(country, attrs) do
-    country
-    |> cast(attrs, [:id, :code, :name])
-    |> cast_assoc(:states)
+  def changeset(state, attrs) do
+    state
+    |> cast(attrs, [:id, :code, :name, :country_id])
     |> validate_required([:code, :name])
     |> unique_constraint(:code)
     |> validate_length(:code, is: 2)
@@ -26,6 +25,7 @@ defmodule Ellion.Geo.Country do
     |> validate_format(:code, ~r/^[A-Z]+$/, message: "must contain only characters A-Z")
     |> validate_length(:name, min: 2, max: 150)
     |> update_change(:id, &Validator.cast_uuid/1)
-    |> unique_constraint(:id, name: :countries_pkey)
+    |> unique_constraint(:id, name: :states_pkey)
+    |> assoc_constraint(:country)
   end
 end
