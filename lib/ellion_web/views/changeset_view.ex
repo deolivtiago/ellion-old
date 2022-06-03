@@ -12,6 +12,6 @@ defmodule EllionWeb.ChangesetView do
   Renders errors returned by Ecto's changeset.
   """
   def render("error.json", %{changeset: changeset}) do
-    %{errors: translate_errors(changeset)}
+    %{errors: translate_errors(changeset), success: false}
   end
 end

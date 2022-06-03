@@ -7,14 +7,14 @@ defmodule EllionWeb.CountryView do
   Renders a list of countries.
   """
   def render("index.json", %{countries: countries}) do
-    %{data: render_many(countries, CountryView, "country.json")}
+    %{data: render_many(countries, CountryView, "country.json"), success: true}
   end
 
   @doc """
   Renders a single country.
   """
   def render("show.json", %{country: country}) do
-    %{data: render_one(country, CountryView, "country.json")}
+    %{data: render_one(country, CountryView, "country.json"), success: true}
   end
 
   @doc """
