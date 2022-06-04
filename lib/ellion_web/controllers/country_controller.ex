@@ -7,8 +7,7 @@ defmodule EllionWeb.CountryController do
   action_fallback EllionWeb.FallbackController
 
   def index(conn, _params) do
-    countries = Geo.list_countries()
-    render(conn, "index.json", countries: countries)
+    render(conn, "index.json", countries: Geo.list_countries())
   end
 
   def create(conn, %{"country" => country_params}) do

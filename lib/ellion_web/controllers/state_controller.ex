@@ -7,9 +7,10 @@ defmodule EllionWeb.StateController do
 
   action_fallback EllionWeb.FallbackController
 
-  def index(conn, _params) do
-    states = Geo.list_states()
-    render(conn, "index.json", states: states)
+  def index(conn, %{"country_id" => country_id}) do
+    with {:ok, %Country{}} <- Geo.get_country(country_id) do
+      render(conn, "index.json", states: Geo.list_states())
+    end
   end
 
   def create(conn, %{"country_id" => country_id, "state" => state_params}) do

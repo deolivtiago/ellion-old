@@ -7,8 +7,7 @@ defmodule EllionWeb.PersonController do
   action_fallback EllionWeb.FallbackController
 
   def index(conn, _params) do
-    persons = Registry.list_persons()
-    render(conn, "index.json", persons: persons)
+    render(conn, "index.json", persons: Registry.list_persons())
   end
 
   def create(conn, %{"person" => person_params}) do

@@ -8,9 +8,11 @@ defmodule EllionWeb.CityController do
 
   action_fallback EllionWeb.FallbackController
 
-  def index(conn, _params) do
-    cities = Geo.list_cities()
-    render(conn, "index.json", cities: cities)
+  def index(conn, %{"country_id" => country_id, "state_id" => state_id}) do
+    with {:ok, %Country{}} <- Geo.get_country(country_id),
+         {:ok, %State{}} <- Geo.get_state(state_id) do
+      render(conn, "index.json", cities: Geo.list_cities())
+    end
   end
 
   def create(conn, %{"country_id" => country_id, "state_id" => state_id, "city" => city_params}) do
