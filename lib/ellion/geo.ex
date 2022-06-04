@@ -2,7 +2,7 @@ defmodule Ellion.Geo do
   @moduledoc """
   Geolocation context.
   """
-
+  alias Ellion.Geo.City
   alias Ellion.Geo.Country
   alias Ellion.Geo.State
   alias Ellion.Repo
@@ -205,5 +205,105 @@ defmodule Ellion.Geo do
   """
   def change_state(%State{} = state, attrs \\ %{}) do
     State.changeset(state, attrs)
+  end
+
+  @doc """
+  Returns the list of cities.
+
+  ## Examples
+
+      iex> list_cities()
+      [%City{}, ...]
+
+  """
+  def list_cities, do: Repo.all(City)
+
+  @doc """
+  Gets a single city.
+
+  ## Examples
+
+      iex> get_city(valid_uuid)
+      {:ok, %City{}}
+
+      iex> get_city(invalid_uuid)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def get_city(id) do
+    city = Repo.get!(City, id)
+
+    {:ok, city}
+  rescue
+    Ecto.NoResultsError ->
+      {:error, City.error_changeset(:id, id, "not found [city]")}
+
+    Ecto.Query.CastError ->
+      {:error, City.error_changeset(:id, id, "invalid format [city]")}
+  end
+
+  @doc """
+  Creates a city.
+
+  ## Examples
+
+      iex> create_city(%{field: value})
+      {:ok, %City{}}
+
+      iex> create_city(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_city(attrs \\ %{}) do
+    %City{}
+    |> City.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a city.
+
+  ## Examples
+
+      iex> update_city(city, %{field: new_value})
+      {:ok, %City{}}
+
+      iex> update_city(city, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_city(%City{} = city, attrs) do
+    city
+    |> City.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a city.
+
+  ## Examples
+
+      iex> delete_city(city)
+      {:ok, %City{}}
+
+      iex> delete_city(city)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_city(%City{} = city) do
+    Repo.delete(city)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking city changes.
+
+  ## Examples
+
+      iex> change_city(city)
+      %Ecto.Changeset{data: %City{}}
+
+  """
+  def change_city(%City{} = city, attrs \\ %{}) do
+    City.changeset(city, attrs)
   end
 end

@@ -3,6 +3,7 @@ defmodule Ellion.Geo.State do
 
   import Ecto.Changeset
 
+  alias Ellion.Geo.City
   alias Ellion.Geo.Country
   alias Ellion.Utils.Validator
 
@@ -10,6 +11,7 @@ defmodule Ellion.Geo.State do
     field :code, :string
     field :name, :string
     belongs_to :country, Country
+    has_many :cities, City
 
     timestamps()
   end
@@ -18,6 +20,7 @@ defmodule Ellion.Geo.State do
   def changeset(state, attrs) do
     state
     |> cast(attrs, [:id, :code, :name, :country_id])
+    |> cast_assoc(:cities)
     |> validate_required([:code, :name])
     |> unique_constraint(:code)
     |> validate_length(:code, is: 2)
