@@ -9,7 +9,9 @@ defmodule EllionWeb.Router do
     pipe_through :api
 
     resources "/countries", CountryController, except: [:new, :edit] do
-      resources "/states", StateController, except: [:new, :edit]
+      resources "/states", StateController, except: [:new, :edit] do
+        resources "/cities", CityController, except: [:new, :edit]
+      end
     end
   end
 
