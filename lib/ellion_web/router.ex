@@ -14,7 +14,9 @@ defmodule EllionWeb.Router do
       end
     end
 
-    resources "/persons", PersonController, except: [:new, :edit]
+    resources "/persons", PersonController, except: [:new, :edit] do
+      resources "/addresses", AddressController, except: [:new, :edit]
+    end
   end
 
   # Enables LiveDashboard only for development
