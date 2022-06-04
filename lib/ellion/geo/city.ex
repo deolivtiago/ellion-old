@@ -4,11 +4,13 @@ defmodule Ellion.Geo.City do
   import Ecto.Changeset
 
   alias Ellion.Geo.State
+  alias Ellion.Registry.Address
   alias Ellion.Utils.Validator
 
   schema "cities" do
     field :name, :string
     belongs_to :state, State
+    has_many :addresses, Address
 
     timestamps()
   end

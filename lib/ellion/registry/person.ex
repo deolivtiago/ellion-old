@@ -3,6 +3,7 @@ defmodule Ellion.Registry.Person do
 
   import Ecto.Changeset
 
+  alias Ellion.Registry.Address
   alias Ellion.Utils.Validator
 
   schema "persons" do
@@ -10,6 +11,7 @@ defmodule Ellion.Registry.Person do
     field :name, :string
     field :social_id, :string
     field :type, Ecto.Enum, values: [natural: 0, juridical: 1, other: 2]
+    has_many :addresses, Address
 
     timestamps()
   end
@@ -18,6 +20,7 @@ defmodule Ellion.Registry.Person do
   def changeset(person, attrs) do
     person
     |> cast(attrs, [:id, :alias, :name, :social_id, :type])
+    |> cast_assoc(:addresses)
     |> validate_required([:name, :social_id, :type])
     |> validate_length(:alias, max: 50)
     |> validate_length(:name, min: 2, max: 150)
