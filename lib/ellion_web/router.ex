@@ -7,6 +7,16 @@ defmodule EllionWeb.Router do
 
   scope "/api", EllionWeb do
     pipe_through :api
+
+    resources "/countries", CountryController, except: [:new, :edit] do
+      resources "/states", StateController, except: [:new, :edit] do
+        resources "/cities", CityController, except: [:new, :edit]
+      end
+    end
+
+    resources "/persons", PersonController, except: [:new, :edit] do
+      resources "/addresses", AddressController, except: [:new, :edit]
+    end
   end
 
   # Enables LiveDashboard only for development
