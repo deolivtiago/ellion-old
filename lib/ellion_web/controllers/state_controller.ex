@@ -9,7 +9,7 @@ defmodule EllionWeb.StateController do
 
   def index(conn, %{"country_id" => country_id}) do
     with {:ok, %Country{}} <- Geo.get_country(country_id) do
-      render(conn, "index.json", states: Geo.list_states())
+      render(conn, "index.json", states: Geo.list_states(country_id))
     end
   end
 

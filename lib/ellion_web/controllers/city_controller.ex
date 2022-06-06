@@ -11,7 +11,7 @@ defmodule EllionWeb.CityController do
   def index(conn, %{"country_id" => country_id, "state_id" => state_id}) do
     with {:ok, %Country{}} <- Geo.get_country(country_id),
          {:ok, %State{}} <- Geo.get_state(state_id) do
-      render(conn, "index.json", cities: Geo.list_cities())
+      render(conn, "index.json", cities: Geo.list_cities(state_id))
     end
   end
 

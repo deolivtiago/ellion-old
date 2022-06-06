@@ -2,6 +2,9 @@ defmodule Ellion.Geo do
   @moduledoc """
   Geolocation context.
   """
+
+  import Ecto.Query, warn: false
+
   alias Ellion.Geo.City
   alias Ellion.Geo.Country
   alias Ellion.Geo.State
@@ -118,6 +121,10 @@ defmodule Ellion.Geo do
   """
   def list_states, do: Repo.all(State)
 
+  def list_states(country_id) do
+    Repo.all(from s in State, where: s.country_id == ^country_id)
+  end
+
   @doc """
   Gets a single state.
 
@@ -217,6 +224,10 @@ defmodule Ellion.Geo do
 
   """
   def list_cities, do: Repo.all(City)
+
+  def list_cities(state_id) do
+    Repo.all(from c in City, where: c.state_id == ^state_id)
+  end
 
   @doc """
   Gets a single city.

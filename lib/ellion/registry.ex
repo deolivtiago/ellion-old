@@ -3,6 +3,8 @@ defmodule Ellion.Registry do
   Registry context.
   """
 
+  import Ecto.Query, warn: false
+
   alias Ellion.Registry.Address
   alias Ellion.Registry.Person
   alias Ellion.Repo
@@ -117,6 +119,10 @@ defmodule Ellion.Registry do
 
   """
   def list_addresses, do: Repo.all(Address)
+
+  def list_addresses(person_id) do
+    Repo.all(from a in Address, where: a.person_id == ^person_id)
+  end
 
   @doc """
   Gets a single address.

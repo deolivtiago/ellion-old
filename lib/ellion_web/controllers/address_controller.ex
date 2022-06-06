@@ -9,7 +9,7 @@ defmodule EllionWeb.AddressController do
 
   def index(conn, %{"person_id" => person_id}) do
     with {:ok, %Person{}} <- Registry.get_person(person_id) do
-      render(conn, "index.json", addresses: Registry.list_addresses())
+      render(conn, "index.json", addresses: Registry.list_addresses(person_id))
     end
   end
 
